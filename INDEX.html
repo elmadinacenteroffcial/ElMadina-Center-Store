@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Madina Center | متجر المدينة سنتر</title>
+  <meta name="description" content="متجر El Madina Center - طرح حريمي، نقاب، إسدال، خمار، بوك وحافظات نقود وبرفانات">
+  <style>
+    :root{
+      --primary:#173f35;
+      --gold:#c79a4b;
+      --bg:#f7f5ef;
+      --card:#fff;
+      --text:#1f2a27;
+      --muted:#6d7773;
+      --danger:#b33a3a;
+      --shadow:0 8px 24px rgba(23,63,53,.10);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;background:var(--bg);color:var(--text);
+      font-family:Tahoma,Arial,sans-serif;line-height:1.7;
+    }
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    header{
+      background:linear-gradient(135deg,var(--primary),#285d4e);
+      color:#fff;padding:22px 14px 26px;position:sticky;top:0;z-index:20;
+      box-shadow:0 3px 18px rgba(0,0,0,.12);
+    }
+    .head{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:52px;height:52px;border-radius:50%;background:#fff;color:var(--primary);
+      display:grid;place-items:center;font-size:24px;font-weight:900;border:3px solid var(--gold)
+    }
+    .brand h1{margin:0;font-size:22px}
+    .brand small{opacity:.85}
+    .cart-btn{
+      border:0;background:var(--gold);color:#fff;border-radius:14px;padding:10px 14px;font-weight:700;
+      box-shadow:0 4px 12px rgba(0,0,0,.16)
+    }
+    .wrap{max-width:1100px;margin:auto;padding:18px 14px 80px}
+    .hero{
+      background:linear-gradient(135deg,#fff,#f0eadc);border-radius:24px;padding:24px 18px;
+      margin:8px 0 18px;box-shadow:var(--shadow);text-align:center
+    }
+    .hero h2{margin:0 0 6px;color:var(--primary);font-size:28px}
+    .hero p{margin:0;color:var(--muted)}
+    .cats{display:flex;gap:8px;overflow:auto;padding:4px 0 12px;scrollbar-width:none}
+    .cats::-webkit-scrollbar{display:none}
+    .cat{
+      flex:0 0 auto;border:1px solid #d7d1c4;background:#fff;color:var(--primary);
+      border-radius:999px;padding:8px 14px
+    }
+    .cat.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    @media(min-width:700px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    .product{
+      background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+      display:flex;flex-direction:column
+    }
+    .pic{aspect-ratio:1/1;background:#eee9de;display:grid;place-items:center;overflow:hidden}
+    .pic img{width:100%;height:100%;object-fit:cover;display:block}
+    .placeholder{font-size:54px;color:#9a8b6b}
+    .info{padding:12px}
+    .info h3{margin:0 0 4px;font-size:17px}
+    .cat-name{font-size:12px;color:var(--muted)}
+    .price{font-size:18px;color:var(--primary);font-weight:900;margin:7px 0}
+    .add{
+      width:100%;border:0;border-radius:12px;background:var(--primary);color:#fff;padding:9px;font-weight:700
+    }
+    .empty{
+      background:#fff;border-radius:18px;padding:28px;text-align:center;box-shadow:var(--shadow);
+      color:var(--muted)
+    }
+    footer{
+      margin-top:28px;background:var(--primary);color:#fff;border-radius:20px;padding:20px;text-align:center
+    }
+    footer a{color:#fff;text-decoration:none}
+    .overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:50;padding:12px
+    }
+    .overlay.show{display:flex;align-items:flex-end;justify-content:center}
+    .panel{
+      width:min(650px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;
+      padding:18px
+    }
+    .panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .close{border:0;background:#eee;border-radius:10px;width:40px;height:40px}
+    .cart-item{
+      display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;
+      padding:10px 0;border-bottom:1px solid #eee
+    }
+    .qty{display:flex;align-items:center;gap:6px}
+    .qty button{border:0;background:#eee;border-radius:8px;width:30px;height:30px}
+    .remove{border:0;background:#fff0f0;color:var(--danger);border-radius:8px;padding:5px 8px}
+    .total{display:flex;justify-content:space-between;font-size:19px;font-weight:900;padding:14px 0}
+    form{display:grid;gap:10px}
+    label{font-weight:700;font-size:14px}
+    input,textarea,select{
+      width:100%;border:1px solid #d8d8d8;border-radius:11px;padding:10px;background:#fff;outline:none
+    }
+    input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+    .paybox{background:#f6f2e8;border:1px solid #e4d8bc;border-radius:13px;padding:12px}
+    .paybox b{color:var(--primary)}
+    .submit{
+      border:0;background:#1f8f4d;color:#fff;border-radius:12px;padding:12px;font-weight:900
+    }
+    .note{font-size:12px;color:var(--muted)}
+    .toast{
+      position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(30px);
+      background:#222;color:#fff;padding:10px 15px;border-radius:12px;opacity:0;pointer-events:none;
+      transition:.25s;z-index:100
+    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="head">
+    <div class="brand">
+      <div class="logo">م</div>
+      <div>
+        <h1>El Madina Center</h1>
+        <small>متجر المدينة سنتر</small>
+      </div>
+    </div>
+    <div style="display:flex;gap:7px;align-items:center"><a href="admin.html" style="color:#fff;text-decoration:none;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:9px 10px;font-size:13px">⚙️ إدارة</a><button class="cart-btn" onclick="openCart()">🛒 السلة (<span id="cartCount">0</span>)</button></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h2>أهلاً بكم في El Madina Center</h2>
+    <p>اختاري منتجاتك وأرسلي الطلب مباشرة على واتساب بسهولة.</p>
+  </section>
+
+  <div id="cats" class="cats"></div>
+  <section id="products" class="grid"></section>
+
+  <footer>
+    <strong>El Madina Center</strong><br>
+    للطلب والاستفسار: <a href="https://wa.me/201131042150" target="_blank" rel="noopener">واتساب 01131042150</a>
+  </footer>
+</main>
+
+<div id="overlay" class="overlay" onclick="if(event.target===this)closeCart()">
+  <div class="panel">
+    <div class="panel-head">
+      <h2>سلة المشتريات</h2>
+      <button class="close" onclick="closeCart()">✕</button>
+    </div>
+
+    <div id="cartItems"></div>
+    <div class="total"><span>الإجمالي</span><span id="total">0 جنيه</span></div>
+
+    <div id="checkout">
+      <h3>بيانات الطلب</h3>
+      <form id="orderForm">
+        <div>
+          <label for="name">الاسم</label>
+          <input id="name" required placeholder="اكتب الاسم">
+        </div>
+        <div>
+          <label for="phone">رقم الهاتف</label>
+          <input id="phone" required inputmode="tel" placeholder="01xxxxxxxxx">
+        </div>
+        <div>
+          <label for="address">العنوان</label>
+          <textarea id="address" required rows="3" placeholder="المحافظة - المنطقة - الشارع - رقم المنزل"></textarea>
+        </div>
+        <div>
+          <label for="payment">طريقة الدفع</label>
+          <select id="payment" onchange="payInfo()">
+            <option value="الدفع عند الاستلام">الدفع عند الاستلام</option>
+            <option value="Vodafone Cash">Vodafone Cash</option>
+            <option value="InstaPay">InstaPay</option>
+          </select>
+        </div>
+
+        <div id="payInfo" class="paybox"></div>
+
+        <button class="submit" type="submit">إرسال الطلب عبر واتساب</button>
+        <div class="note">بعد الضغط سيتم فتح واتساب برسالة جاهزة تحتوي على تفاصيل الطلب.</div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="supabase-config.js"></script>
+<script>
+  const WA = "201131042150";
+  let selected = "all";
+  let cart = JSON.parse(localStorage.getItem("elmadina_cart") || "[]");
+
+  // بيانات المتجر تُحفظ أونلاين، بحيث تظهر التعديلات لكل الزوار.
+  const SUPABASE_URL = window.ELMADINA_SUPABASE_URL || "";
+  const SUPABASE_ANON_KEY = window.ELMADINA_SUPABASE_ANON_KEY || "";
+  let STORE_DATA = null;
+  let STORE_SETTINGS = null;
+
+  const FALLBACK_DATA = {"categories": ["طرح", "إسدالات", "نقاب", "خمار", "بوك / حافظات نقود", "برفانات", "إكسسوارات"], "subtypes": {"طرح": ["طرحة كريب سادة", "طرحة كريب ديجيتال", "طرحة قطن سادة", "طرحة كوبي إما", "طرحة تايلندي مصري", "طرحة تايلندي مستورد", "طرحة جيل", "طرحة جيل مع بندانة", "طرحة كويتي", "طرحة أورجانزا", "سكارف"]}, "products": []};
+  const FALLBACK_SETTINGS = {"store_name": "El Madina Center", "store_subtitle": "متجر المدينة سنتر", "hero_title": "أهلاً بكم في El Madina Center", "hero_text": "اختاري منتجاتك وأرسلي الطلب مباشرة على واتساب بسهولة.", "currency": "جنيه", "whatsapp": "201131042150", "vodafone_cash": "01017501761", "instapay": "", "shipping_note": "سيتم تأكيد تفاصيل الشحن مع المتجر.", "payments": [{"id": "cod", "name": "الدفع عند الاستلام", "details": "سيتم الدفع عند استلام الطلب.", "enabled": true}, {"id": "vodafone", "name": "Vodafone Cash", "details": "01017501761", "enabled": true}, {"id": "instapay", "name": "InstaPay", "details": "", "enabled": false}], "social": {"facebook": "https://www.facebook.com/share/19M36MsprW/", "instagram": "https://www.instagram.com/elmadina.center", "tiktok": "https://www.tiktok.com/@el.madina.center4", "maps": "https://maps.app.goo.gl/kJEuEHp9wJ247qBG9"}};
+  async function loadStoreData(){
+    try{
+      if(!SUPABASE_URL || !SUPABASE_ANON_KEY) return {content:FALLBACK_DATA,settings:FALLBACK_SETTINGS};
+      const h={"apikey":SUPABASE_ANON_KEY,"Authorization":"Bearer "+SUPABASE_ANON_KEY};
+      const [a,b]=await Promise.all([
+        fetch(SUPABASE_URL+"/rest/v1/store_content?id=eq.1&select=data",{headers:h}),
+        fetch(SUPABASE_URL+"/rest/v1/store_settings?id=eq.1&select=data",{headers:h})
+      ]);
+      const ar=a.ok?await a.json():[], br=b.ok?await b.json():[];
+      return {content:ar[0]?.data||FALLBACK_DATA,settings:br[0]?.data||FALLBACK_SETTINGS};
+    }catch(e){return {content:FALLBACK_DATA,settings:FALLBACK_SETTINGS};}
+  }
+  function getProducts(){
+    return (STORE_DATA && Array.isArray(STORE_DATA.products)) ? STORE_DATA.products : [];
+  }
+
+  // توحيد النص العربي قبل المقارنة حتى لا تختفي المنتجات بسبب
+  // مسافات زائدة أو علامات مخفية أو اختلافات بسيطة في الكتابة.
+  function normalizeText(value){
+    if(value === null || value === undefined) return "";
+    return String(value)
+      .normalize("NFKC")
+      .replace(/[\\u200B-\\u200D\\uFEFF]/g, "")
+      .replace(/[\\u064B-\\u065F\\u0670]/g, "")
+      .replace(/\\s+/g, " ")
+      .trim();
+  }
+
+  function valueName(value){
+    if(value && typeof value === "object"){
+      return value.name ?? value.title ?? value.label ?? value.id ?? "";
+    }
+    return value ?? "";
+  }
+
+  function productCategory(p){
+    return valueName(
+      p.category ?? p.cat ?? p.category_name ?? p.categoryName ?? p.section ?? ""
+    );
+  }
+
+  const FINAL_CATEGORIES = ["طرح", "إسدالات", "نقاب", "خمار", "بوك / حافظات نقود", "برفانات", "إكسسوارات"];
+
+  const FINAL_TARHA_SUBTYPES = [
+    "طرحة كريب سادة", "طرحة كريب ديجيتال", "طرحة قطن سادة",
+    "طرحة كوبي إما", "طرحة تايلندي مصري", "طرحة تايلندي مستورد",
+    "طرحة جيل", "طرحة جيل مع بندانة", "طرحة كويتي",
+    "طرحة أورجانزا", "سكارف"
+  ].map(normalizeText);
+
+  function getCategories(){
+    const raw = (STORE_DATA && Array.isArray(STORE_DATA.categories))
+      ? STORE_DATA.categories
+      : FALLBACK_DATA.categories;
+
+    const names = raw
+      .map(valueName)
+      .map(normalizeText)
+      .filter(Boolean);
+
+    // نستخدم الأقسام الموجودة فعلاً في البيانات، مع ضمان عدم تكرارها.
+    const unique = [...new Set(names)];
+    return [{id:"all",name:"كل المنتجات"}, ...unique.map(x => ({id:x,name:x}))];
+  }
+
+  function categoryMatches(product, selectedCategory){
+    if(selectedCategory === "all") return true;
+
+    const selectedName = normalizeText(selectedCategory);
+    const productName = normalizeText(productCategory(product));
+
+    if(productName === selectedName) return true;
+
+    // إصلاح حالات اختلاف الكتابة القديمة مثل "طرح حريمي/طرح حريمى".
+    if(selectedName === normalizeText("طرح")){
+      if(
+        productName === normalizeText("طرح حريمي") ||
+        productName === normalizeText("طرح حريمى") ||
+        productName === normalizeText("طرحات")
+      ) return true;
+
+      // إذا كان المنتج مسجلاً بنوع طرح صحيح ولكن القسم لم يُحفظ بشكل صحيح،
+      // نعتبره ضمن قسم "طرح".
+      const subtype = normalizeText(
+        product.subtype ?? product.sub_type ?? product.type ?? product.subCategory ?? ""
+      );
+      if(FINAL_TARHA_SUBTYPES.includes(subtype)) return true;
+    }
+
+    return false;
+  }
+
+  function money(n){
+    return Number(n || 0).toLocaleString("ar-EG") + " جنيه";
+  }
+
+  function cats(){
+    const box = document.getElementById("cats");
+    box.innerHTML = "";
+    getCategories().forEach(c => {
+      const b = document.createElement("button");
+      b.className = "cat" + (selected === c.id ? " active" : "");
+      b.textContent = c.name;
+      b.onclick = () => { selected = c.id; cats(); products(); };
+      box.appendChild(b);
+    });
+  }
+
+  function productImage(p){
+    return p.image || p.img || p.photo || "";
+  }
+
+  function products(){
+    const box = document.getElementById("products");
+    const ps = getProducts().filter(p => categoryMatches(p, selected));
+
+    if(!ps.length){
+      box.innerHTML = '<div class="empty">لا توجد منتجات في هذا القسم حالياً.</div>';
+      return;
+    }
+
+    box.innerHTML = ps.map(p => {
+      const image = productImage(p);
+      const category = productCategory(p) || "أخرى";
+      const price = p.price ?? p.priceEGP ?? 0;
+      return `
+        <article class="product">
+          <div class="pic">
+            ${image ? `<img src="${escapeAttr(image)}" alt="${escapeAttr(p.name || "منتج")}" loading="lazy"
+              onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;placeholder&quot;>🛍️</div>';">`
+                    : `<div class="placeholder">${p.emoji || "🛍️"}</div>`}
+          </div>
+          <div class="info">
+            <div class="cat-name">${escapeHtml(category)}</div>
+            <h3>${escapeHtml(p.name || "منتج")}</h3>
+            <div class="price">${money(price)}</div>
+            <button class="add" onclick="add('${escapeJs(String(p.id))}')">أضف إلى السلة</button>
+          </div>
+        </article>`;
+    }).join("");
+  }
+
+  function findProduct(id){
+    return getProducts().find(p => String(p.id ?? p.product_id ?? p.productId) === String(id));
+  }
+
+  function add(id){
+    const p = findProduct(id);
+    if(!p) return;
+    const found = cart.find(x => String(x.id) === String(id));
+    if(found) found.qty++;
+    else cart.push({id:p.id, qty:1});
+    save();
+    toast("تمت إضافة المنتج إلى السلة");
+  }
+
+  function changeQty(id, delta){
+    const item = cart.find(x => String(x.id) === String(id));
+    if(!item) return;
+    item.qty += delta;
+    if(item.qty <= 0) cart = cart.filter(x => String(x.id) !== String(id));
+    save();
+    render();
+  }
+
+  function removeItem(id){
+    cart = cart.filter(x => String(x.id) !== String(id));
+    save();
+    render();
+  }
+
+  function save(){
+    localStorage.setItem("elmadina_cart", JSON.stringify(cart));
+    render();
+  }
+
+  function render(){
+    document.getElementById("cartCount").textContent = cart.reduce((s,x)=>s+x.qty,0);
+    const box = document.getElementById("cartItems");
+    let total = 0;
+
+    if(!cart.length){
+      box.innerHTML = '<div class="empty">السلة فارغة حالياً.</div>';
+      document.getElementById("total").textContent = "0 جنيه";
+      return;
+    }
+
+    box.innerHTML = cart.map(item => {
+      const p = findProduct(item.id);
+      if(!p) return "";
+      const price = Number(p.price ?? p.priceEGP ?? 0);
+      total += price * item.qty;
+      return `
+        <div class="cart-item">
+          <div><b>${escapeHtml(p.name || "منتج")}</b><br><small>${money(price)} × ${item.qty}</small></div>
+          <div class="qty">
+            <button onclick="changeQty('${escapeJs(String(item.id))}',1)">+</button>
+            <b>${item.qty}</b>
+            <button onclick="changeQty('${escapeJs(String(item.id))}',-1)">−</button>
+          </div>
+          <button class="remove" onclick="removeItem('${escapeJs(String(item.id))}')">حذف</button>
+        </div>`;
+    }).join("");
+
+    document.getElementById("total").textContent = money(total);
+  }
+
+  function openCart(){
+    document.getElementById("overlay").classList.add("show");
+    render();
+    payInfo();
+  }
+
+  function closeCart(){
+    document.getElementById("overlay").classList.remove("show");
+  }
+
+  function payInfo(){
+    const v=document.getElementById("payment").value, box=document.getElementById("payInfo");
+    const p=(STORE_SETTINGS?.payments||[]).find(x=>x.id===v);
+    box.innerHTML=p?`<b>${escapeHtml(p.name)}</b><br>${escapeHtml(p.details||"")}<br><span class='note'>${escapeHtml(STORE_SETTINGS?.shipping_note||"")}</span>`:"";
+  }
+  function renderPaymentOptions(){
+    const sel=document.getElementById("payment"); const ps=(STORE_SETTINGS?.payments||[]).filter(x=>x.enabled);
+    sel.innerHTML=ps.map(p=>`<option value="${escapeAttr(p.id)}">${escapeHtml(p.name)}</option>`).join("");
+    payInfo();
+  }
+  function applyStoreSettings(){
+    const s=STORE_SETTINGS||{};
+    document.title=(s.store_name||"El Madina Center")+" | متجر";
+    const h=document.querySelector(".brand h1"); if(h)h.textContent=s.store_name||"El Madina Center";
+    const sm=document.querySelector(".brand small"); if(sm)sm.textContent=s.store_subtitle||"متجر المدينة سنتر";
+    const hero=document.querySelector(".hero h2"); if(hero)hero.textContent=s.hero_title||"أهلاً بكم في El Madina Center";
+    const hp=document.querySelector(".hero p"); if(hp)hp.textContent=s.hero_text||"اختاري منتجاتك وأرسلي الطلب مباشرة على واتساب بسهولة.";
+    const wa=s.whatsapp||"201131042150"; const a=document.querySelector("footer a"); if(a){a.href="https://wa.me/"+wa;a.textContent="واتساب "+wa;}
+  }
+  document.getElementById("orderForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    if(!cart.length){ toast("أضف منتجاً إلى السلة أولاً"); return; }
+
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const paymentId = document.getElementById("payment").value;
+    const paymentObj = (STORE_SETTINGS?.payments||[]).find(x=>x.id===paymentId);
+    const payment = paymentObj ? paymentObj.name : paymentId;
+
+    let total = 0;
+    let lines = [];
+    cart.forEach(item => {
+      const p = findProduct(item.id);
+      if(!p) return;
+      const price = Number(p.price ?? p.priceEGP ?? 0);
+      total += price * item.qty;
+      lines.push(`- ${p.name} × ${item.qty} = ${money(price * item.qty)}`);
+    });
+
+    const message =
+`السلام عليكم، أريد عمل طلب من El Madina Center
+
+الاسم: ${name}
+رقم الهاتف: ${phone}
+العنوان: ${address}
+
+المنتجات:
+${lines.join("\n")}
+
+الإجمالي: ${money(total)}
+طريقة الدفع: ${payment}`;
+
+    window.open("https://wa.me/" + (STORE_SETTINGS?.whatsapp||WA) + "?text=" + encodeURIComponent(message), "_blank");
+  });
+
+  function toast(text){
+    const t = document.getElementById("toast");
+    t.textContent = text;
+    t.classList.add("show");
+    setTimeout(()=>t.classList.remove("show"),1800);
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function escapeAttr(s){ return escapeHtml(s); }
+  function escapeJs(s){ return String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'"); }
+
+  (async function(){
+    const loaded = await loadStoreData();
+    STORE_DATA = loaded.content; STORE_SETTINGS = loaded.settings;
+    cats();
+    products();
+    render();
+    renderPaymentOptions();
+    applyStoreSettings();
+    payInfo();
+  })();
+</script>
+</body>
+</html>
